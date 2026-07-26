@@ -10,7 +10,5 @@ class ResizeObserverMock {
   disconnect() {}
 }
 
-// @ts-expect-error jsdom does not implement these observers
-globalThis.IntersectionObserver = IntersectionObserverMock
-// @ts-expect-error jsdom does not implement these observers
-globalThis.ResizeObserver = ResizeObserverMock
+globalThis.IntersectionObserver = IntersectionObserverMock as unknown as typeof IntersectionObserver
+globalThis.ResizeObserver = ResizeObserverMock as unknown as typeof ResizeObserver
