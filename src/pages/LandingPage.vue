@@ -63,28 +63,29 @@ function typeEffect() {
 onMounted(() => { typingTimer = setTimeout(typeEffect, 600) })
 onUnmounted(() => clearTimeout(typingTimer))
 
-// ─── Hero → Portfolio zoom/depth transition ──────────────────────────────
-// As the user scrolls through the Hero's pinned window, it shrinks and dims
-// (receding), while Portfolio scales in from slightly larger toward its
-// normal size (approaching) -- a depth/zoom illusion instead of a curtain.
-const heroStageRef = ref<HTMLElement | null>(null)
-const heroToPortfolioProgress = ref(0)
+// ─── Intro → OnBoarding Hero color grade transition ──────────────────────
+// As the user scrolls through the intro's pinned window, a radial navy
+// grade + vignette overlay fades in over it -- the light palette shifts
+// into the Hero's dark tone before the Hero itself arrives. A mood/color
+// shift rather than a geometric motion effect.
+const introStageRef = ref<HTMLElement | null>(null)
+const introToHeroProgress = ref(0)
 
-function handleZoomScroll() {
-  const stage = heroStageRef.value
+function handleGradeScroll() {
+  const stage = introStageRef.value
   if (!stage) return
   const rect = stage.getBoundingClientRect()
   const totalScrollable = rect.height - window.innerHeight
   if (totalScrollable <= 0) return
   const progress = -rect.top / totalScrollable
-  heroToPortfolioProgress.value = Math.max(0, Math.min(1, progress))
+  introToHeroProgress.value = Math.max(0, Math.min(1, progress))
 }
 
 onMounted(() => {
-  window.addEventListener('scroll', handleZoomScroll, { passive: true })
-  handleZoomScroll()
+  window.addEventListener('scroll', handleGradeScroll, { passive: true })
+  handleGradeScroll()
 })
-onUnmounted(() => window.removeEventListener('scroll', handleZoomScroll))
+onUnmounted(() => window.removeEventListener('scroll', handleGradeScroll))
 
 // Skill tags
 const skills = ['Vue 3', 'TypeScript', 'Tailwind', 'Figma', 'Supabase', 'Next.js', 'React']
@@ -95,9 +96,10 @@ const skills = ['Vue 3', 'TypeScript', 'Tailwind', 'Figma', 'Supabase', 'Next.js
     <NavBar />
 
     <!-- Page 0: Intro. Wrapper is taller than one viewport so the inner
-         sticky intro has room to stay pinned while the user scrolls,
-         before Page 1 (OnBoarding Hero) rises to cover it. -->
-    <div class="relative h-[160vh]">
+         sticky intro has room to stay pinned while the user scrolls. A
+         navy grade + vignette overlay fades in over it as Page 1
+         (OnBoarding Hero) approaches -- a color/mood shift transition. -->
+    <div ref="introStageRef" class="relative h-[160vh]">
       <div class="sticky top-0 h-screen overflow-hidden">
         <div class="landing-root relative h-full overflow-hidden bg-gradient-to-br from-teal-50/40 via-[#F8FAFC] to-sky-50/40 flex flex-col items-center justify-center">
           <!-- Ambient background orbs (parallax) -->
@@ -276,33 +278,31 @@ const skills = ['Vue 3', 'TypeScript', 'Tailwind', 'Figma', 'Supabase', 'Next.js
               delay: n * 0.4,
             }"
           />
+
+          <!-- Color grade + vignette overlay: fades in over everything above,
+               shifting the light palette toward the Hero's dark navy tone. -->
+          <div
+            class="pointer-events-none absolute inset-0"
+            :style="{
+              background: 'radial-gradient(ellipse at center, rgba(15,23,42,0.4) 0%, rgba(13,34,53,0.85) 55%, #0B1E3A 100%)',
+              opacity: introToHeroProgress,
+            }"
+          />
         </div>
       </div>
     </div>
 
-    <!-- Page 1: OnBoarding Hero. Slides up over the still-pinned intro. Then,
-         while itself pinned, it shrinks and dims (receding) as Page 2
-         (Portfolio) scales in from behind it -- a zoom/depth transition. -->
-    <div ref="heroStageRef" class="relative z-10 -mt-[40vh] h-[160vh]">
-      <div
-        class="sticky top-0 h-screen origin-top overflow-hidden rounded-b-[2.5rem] will-change-transform"
-        :style="{
-          transform: `scale(${1 - heroToPortfolioProgress * 0.1})`,
-          filter: `brightness(${1 - heroToPortfolioProgress * 0.5})`,
-        }"
-      >
+    <!-- Page 1: OnBoarding Hero. Then, while pinned, Page 2 (Portfolio)
+         slides up to cover it -- a rounded curtain reveal. -->
+    <div class="relative z-10 -mt-[40vh] h-[160vh]">
+      <div class="sticky top-0 h-screen overflow-hidden">
         <StoryHero />
       </div>
     </div>
 
-    <!-- Page 2: Portfolio. Scales in from slightly larger toward its normal
-         size as the Hero above recedes, approaching the viewer. -->
+    <!-- Page 2: Portfolio. Slides up over the still-pinned Hero. -->
     <section
-      class="relative z-20 -mt-[40vh] rounded-t-[2.5rem] bg-background px-6 pt-16 pb-16 shadow-2xl sm:pt-20 sm:pb-20 will-change-transform"
-      :style="{
-        transform: `scale(${1.06 - heroToPortfolioProgress * 0.06}) translateY(${(1 - heroToPortfolioProgress) * 24}px)`,
-        opacity: 0.5 + heroToPortfolioProgress * 0.5,
-      }"
+      class="relative z-20 -mt-[40vh] rounded-t-[2.5rem] bg-background px-6 pt-16 pb-16 shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.35)] sm:pt-20 sm:pb-20"
     >
       <div class="mx-auto max-w-4xl text-center">
         <p class="mb-2 text-xs font-semibold tracking-[0.3em] uppercase text-primary">

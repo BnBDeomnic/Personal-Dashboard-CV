@@ -42,17 +42,26 @@ describe('LandingPage', () => {
     expect(downloadLink.text()).toContain('Download CV')
   })
 
-  it('uses a zoom/depth transform for the Hero -> Portfolio transition, not the rounded curtain overlap', () => {
+  it('uses a color grade + vignette overlay for Intro -> Hero, and a rounded curtain overlap for Hero -> Portfolio', () => {
     const wrapper = mountPage()
 
-    // The Hero's sticky wrapper is scroll-driven scale/brightness, not the old rounded-top curtain
-    const heroSticky = wrapper.find('.sticky.h-screen.origin-top')
-    expect(heroSticky.exists()).toBe(true)
-    expect(heroSticky.classes()).not.toContain('rounded-t-[2.5rem]')
-    expect(heroSticky.attributes('style')).toContain('scale(')
+    const stickyLayers = wrapper.findAll('.sticky.h-screen')
+    expect(stickyLayers).toHaveLength(2)
 
-    // Portfolio scales in with its own scroll-driven transform
+    // Intro and Hero sticky wrappers are both plain now -- no scroll-driven transform on them
+    const introSticky = stickyLayers[0]!
+    expect(introSticky.attributes('style')).toBeUndefined()
+    const heroSticky = stickyLayers[1]!
+    expect(heroSticky.attributes('style')).toBeUndefined()
+
+    // A scroll-driven radial grade overlay fades in over the intro instead
+    const gradeOverlay = wrapper.find('.landing-root > div[style*="radial-gradient"]')
+    expect(gradeOverlay.exists()).toBe(true)
+    expect(gradeOverlay.attributes('style')).toContain('opacity: 0')
+
+    // Portfolio is still the static rounded curtain -- no scroll-driven transform
     const portfolioSection = wrapper.find('section')
-    expect(portfolioSection.attributes('style')).toContain('scale(')
+    expect(portfolioSection.classes()).toContain('rounded-t-[2.5rem]')
+    expect(portfolioSection.attributes('style')).toBeUndefined()
   })
 })
