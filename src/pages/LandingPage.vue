@@ -306,8 +306,8 @@ const skills = ['Vue 3', 'TypeScript', 'Tailwind', 'Figma', 'Supabase', 'Next.js
       class="relative z-20 -mt-[40vh] rounded-t-[2.5rem] bg-background px-6 pt-16 pb-16 shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.35)] sm:pt-20 sm:pb-20"
     >
       <div class="mx-auto max-w-4xl text-center">
-        <p class="mb-2 text-xs font-semibold tracking-[0.3em] uppercase text-primary">
-          Portfolio
+        <p class="mb-2 font-mono text-xs font-semibold tracking-[0.3em] uppercase text-primary">
+          // Selected Work
         </p>
         <h2 class="mb-3 font-heading text-3xl font-bold text-foreground sm:text-4xl">
           Portfolio
