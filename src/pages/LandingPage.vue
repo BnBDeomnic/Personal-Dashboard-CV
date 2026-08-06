@@ -5,7 +5,7 @@ import NavBar from '@/components/layout/NavBar.vue'
 import SiteFooter from '@/components/layout/SiteFooter.vue'
 import StoryHero from '@/components/story/StoryHero.vue'
 import PortfolioGallery from '@/components/portfolio/PortfolioGallery.vue'
-import { skillGroups } from '@/data/profile'
+import { educationPath, skillGroups } from '@/data/profile'
 import logoUrl from '@/assets/LogoPortoTrnsp.png'
 
 const cvFileHref = '/cv-bagus-wikan.pdf'
@@ -392,6 +392,16 @@ onUnmounted(() => sectionObserver?.disconnect())
               <li><strong class="text-foreground">Lokasi:</strong> Yogyakarta, Indonesia</li>
               <li><strong class="text-foreground">Minat:</strong> Web Development, UI/UX Design</li>
             </ul>
+
+            <p class="mt-6 mb-3 text-sm font-semibold text-foreground">Jalur Pendidikan</p>
+            <ol class="space-y-3 border-l border-border pl-4">
+              <li v-for="stage in educationPath" :key="stage.level">
+                <p class="font-mono text-xs font-semibold uppercase tracking-widest text-primary">
+                  {{ stage.level }}
+                </p>
+                <p class="text-sm text-muted-foreground">{{ stage.institution }}</p>
+              </li>
+            </ol>
           </section>
 
           <section id="experience">

@@ -2,6 +2,7 @@
 import { describe, expect, it } from 'vitest'
 import { mount, RouterLinkStub } from '@vue/test-utils'
 import LandingPage from './LandingPage.vue'
+import { educationPath } from '@/data/profile'
 
 function mountPage() {
   return mount(LandingPage, {
@@ -53,6 +54,16 @@ describe('LandingPage', () => {
       '#experience',
       '#project',
     ])
+  })
+
+  it('lists the education path (SMP/SMA/Kuliah) in the About section', () => {
+    const wrapper = mountPage()
+    const text = wrapper.text()
+
+    educationPath.forEach((stage) => {
+      expect(text).toContain(stage.level)
+      expect(text).toContain(stage.institution)
+    })
   })
 
   it('uses a color grade + vignette overlay for Intro -> Hero, and a rounded curtain overlap for Hero -> Portfolio', () => {
