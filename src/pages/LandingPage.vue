@@ -3,7 +3,6 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { motion, useMotionValue, useTransform } from 'motion-v'
 import NavBar from '@/components/layout/NavBar.vue'
 import SiteFooter from '@/components/layout/SiteFooter.vue'
-import ChapterSection from '@/components/story/ChapterSection.vue'
 import StoryHero from '@/components/story/StoryHero.vue'
 import PortfolioGallery from '@/components/portfolio/PortfolioGallery.vue'
 import { skillGroups } from '@/data/profile'
@@ -89,6 +88,36 @@ onUnmounted(() => window.removeEventListener('scroll', handleGradeScroll))
 
 // Skill tags
 const skills = ['Vue 3', 'TypeScript', 'Tailwind', 'Figma', 'Supabase', 'Next.js', 'React']
+
+// ─── Split-panel nav (brittanychiang.com concept) ────────────────────────
+// Left panel stays put (sticky on desktop) while the right column scrolls
+// through Portfolio/About/Skills; the nav highlights whichever section is
+// currently in view.
+const panelSections = [
+  { id: 'portfolio', label: 'Portfolio' },
+  { id: 'about', label: 'About' },
+  { id: 'skills', label: 'Skills' },
+]
+const activeSection = ref(panelSections[0]!.id)
+let sectionObserver: IntersectionObserver | null = null
+
+onMounted(() => {
+  sectionObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          activeSection.value = entry.target.id
+        }
+      })
+    },
+    { rootMargin: '-40% 0px -50% 0px' },
+  )
+  panelSections.forEach((section) => {
+    const el = document.getElementById(section.id)
+    if (el) sectionObserver!.observe(el)
+  })
+})
+onUnmounted(() => sectionObserver?.disconnect())
 </script>
 
 <template>
@@ -301,68 +330,94 @@ const skills = ['Vue 3', 'TypeScript', 'Tailwind', 'Figma', 'Supabase', 'Next.js
       </div>
     </div>
 
-    <!-- Page 2: Portfolio. Slides up over the still-pinned Hero. -->
+    <!-- Page 2+: Portfolio through Skills, split-panel layout (brittanychiang.com
+         concept). This whole section slides up over the still-pinned Hero. -->
     <section
       class="relative z-20 -mt-[40vh] rounded-t-[2.5rem] bg-background px-6 pt-16 pb-16 shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.35)] sm:pt-20 sm:pb-20"
     >
-      <div class="mx-auto max-w-4xl text-center">
-        <p class="mb-2 font-mono text-xs font-semibold tracking-[0.3em] uppercase text-primary">
-          // Selected Work
-        </p>
-        <h2 class="mb-3 font-heading text-3xl font-bold text-foreground sm:text-4xl">
-          Portfolio
-        </h2>
-        <p class="mb-10 text-sm text-muted-foreground sm:text-base">
-          Beberapa proyek yang menunjukkan cara saya berpikir dan membangun produk.
-        </p>
-        <PortfolioGallery />
+      <div class="mx-auto max-w-6xl lg:flex lg:items-start lg:gap-16">
+        <!-- Left panel: sticky "about me" -- name, role, bio, nav, CTAs -->
+        <div class="lg:sticky lg:top-24 lg:w-[38%] lg:shrink-0">
+          <h2 class="font-heading text-3xl font-bold text-foreground sm:text-4xl">
+            Bagus Wikan
+          </h2>
+          <p class="mt-2 text-lg font-semibold text-primary">
+            Calon Software Developer &amp; UI/UX Designer
+          </p>
+          <p class="mt-4 text-sm text-muted-foreground">
+            Mahasiswa Informatika, semester akhir — siap kontribusi di tim engineering/produk.
+          </p>
+
+          <nav class="mt-10 hidden lg:block" aria-label="Section navigation">
+            <ul class="space-y-4">
+              <li v-for="section in panelSections" :key="section.id">
+                <a
+                  :href="`#${section.id}`"
+                  class="group flex items-center gap-3 text-xs font-semibold uppercase tracking-widest transition-colors"
+                  :class="activeSection === section.id ? 'text-foreground' : 'text-muted-foreground'"
+                >
+                  <span
+                    class="h-px transition-all"
+                    :class="activeSection === section.id ? 'w-8 bg-foreground' : 'w-4 bg-border group-hover:w-8 group-hover:bg-primary'"
+                  />
+                  {{ section.label }}
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          <div class="mt-10 flex flex-wrap gap-3">
+            <a
+              :href="cvFileHref"
+              download
+              class="rounded-md bg-primary px-4 py-2 font-heading font-semibold text-primary-foreground"
+            >
+              Download CV (PDF)
+            </a>
+            <a
+              href="mailto:nama@email.com"
+              class="rounded-md border border-primary px-4 py-2 font-heading font-semibold text-primary"
+            >
+              Email / LinkedIn
+            </a>
+          </div>
+        </div>
+
+        <!-- Right panel: scrolls through Portfolio / About / Skills -->
+        <div class="mt-16 space-y-16 lg:mt-0 lg:w-[62%]">
+          <section id="portfolio">
+            <p class="mb-2 font-mono text-xs font-semibold tracking-[0.3em] uppercase text-primary">
+              // Selected Work
+            </p>
+            <h3 class="mb-6 font-heading text-lg font-semibold text-foreground">Portfolio</h3>
+            <PortfolioGallery />
+          </section>
+
+          <section id="about">
+            <h3 class="mb-4 font-heading text-lg font-semibold text-foreground">About</h3>
+            <ul class="space-y-1 text-sm text-muted-foreground">
+              <li><strong class="text-foreground">Pendidikan:</strong> S1 Informatika — Semester Akhir</li>
+              <li><strong class="text-foreground">Lokasi:</strong> Yogyakarta, Indonesia</li>
+              <li><strong class="text-foreground">Minat:</strong> Web Development, UI/UX Design</li>
+            </ul>
+          </section>
+
+          <section id="skills">
+            <h3 class="mb-4 font-heading text-lg font-semibold text-foreground">Skills &amp; Experience</h3>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <article
+                v-for="skill in skillGroups"
+                :key="skill.id"
+                class="rounded-lg border border-border bg-card p-4 text-left"
+              >
+                <h4 class="font-heading font-semibold">{{ skill.title }}</h4>
+                <p class="mt-2 text-sm text-muted-foreground">{{ skill.detail }}</p>
+              </article>
+            </div>
+          </section>
+        </div>
       </div>
     </section>
-
-    <ChapterSection number="BAB 01" title="Calon Software Developer &amp; UI/UX Designer">
-      <p class="text-muted-foreground">
-        Mahasiswa Informatika, semester akhir — siap kontribusi di tim engineering/produk.
-      </p>
-    </ChapterSection>
-
-    <ChapterSection number="BAB 02" title="About">
-      <ul class="space-y-1 text-sm text-muted-foreground">
-        <li><strong class="text-foreground">Pendidikan:</strong> S1 Informatika — Semester Akhir</li>
-        <li><strong class="text-foreground">Lokasi:</strong> Yogyakarta, Indonesia</li>
-        <li><strong class="text-foreground">Minat:</strong> Web Development, UI/UX Design</li>
-      </ul>
-    </ChapterSection>
-
-    <ChapterSection number="BAB 03" title="Skills &amp; Experience">
-      <div class="grid gap-4 sm:grid-cols-3">
-        <article
-          v-for="skill in skillGroups"
-          :key="skill.id"
-          class="rounded-lg border border-border bg-card p-4 text-left"
-        >
-          <h4 class="font-heading font-semibold">{{ skill.title }}</h4>
-          <p class="mt-2 text-sm text-muted-foreground">{{ skill.detail }}</p>
-        </article>
-      </div>
-    </ChapterSection>
-
-    <ChapterSection number="BAB 04" title="Contact">
-      <div class="flex flex-wrap gap-3">
-        <a
-          :href="cvFileHref"
-          download
-          class="rounded-md bg-primary px-4 py-2 font-heading font-semibold text-primary-foreground"
-        >
-          Download CV (PDF)
-        </a>
-        <a
-          href="mailto:nama@email.com"
-          class="rounded-md border border-primary px-4 py-2 font-heading font-semibold text-primary"
-        >
-          Email / LinkedIn
-        </a>
-      </div>
-    </ChapterSection>
 
     <SiteFooter />
   </div>

@@ -68,6 +68,10 @@ body {
   margin: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @theme inline {
   --font-heading: var(--heading);
   --font-sans: var(--sans);

@@ -24,22 +24,28 @@ describe('LandingPage', () => {
     expect(links[0]!.props('to')).toBe('/')
   })
 
-  it('flows intro straight into the OnBoarding hero, Portfolio (page 2), and BAB 01-04 on the same page', () => {
+  it('flows intro straight into the OnBoarding hero, then a split-panel Portfolio/About/Skills section', () => {
     const wrapper = mountPage()
     const text = wrapper.text()
 
     expect(text).toContain('Saya bukan sekadar kode')
     expect(text).toContain('Portfolio')
-    expect(text).toContain('BAB 01')
-    expect(text).toContain('BAB 02')
-    expect(text).toContain('BAB 03')
-    expect(text).toContain('BAB 04')
+    expect(text).toContain('About')
+    expect(text).toContain('Skills')
+    // BAB numbering is gone -- replaced by the nav-driven split panel
+    expect(text).not.toContain('BAB 01')
     expect(text).not.toContain('BAB 05')
 
     expect(wrapper.findAll('article')).toHaveLength(6) // 3 skill groups + 3 portfolio items
 
+    // CV download and email now live in the left panel, not a separate "Contact" chapter
     const downloadLink = wrapper.get('a[download]')
     expect(downloadLink.text()).toContain('Download CV')
+
+    // Left panel nav links to each right-column section
+    expect(wrapper.find('a[href="#portfolio"]').exists()).toBe(true)
+    expect(wrapper.find('a[href="#about"]').exists()).toBe(true)
+    expect(wrapper.find('a[href="#skills"]').exists()).toBe(true)
   })
 
   it('uses a color grade + vignette overlay for Intro -> Hero, and a rounded curtain overlap for Hero -> Portfolio', () => {
