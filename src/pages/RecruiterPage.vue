@@ -18,7 +18,7 @@ const cvFileHref = '/cv-bagus-wikan.pdf'
          before Page 2 (Portfolio) rises to cover it. -->
     <div class="relative h-[160vh]">
       <div class="sticky top-0 h-screen overflow-hidden">
-        <StoryHero mode="recruiter" />
+        <StoryHero />
       </div>
     </div>
 
