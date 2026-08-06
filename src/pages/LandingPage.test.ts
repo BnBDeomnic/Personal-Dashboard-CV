@@ -56,6 +56,22 @@ describe('LandingPage', () => {
     ])
   })
 
+  it('separates Skills (Tech Stack, Design Tools) from Experience (Organisasi/Magang) in the Experience section', () => {
+    const wrapper = mountPage()
+    const text = wrapper.text()
+
+    // Two distinct sub-labels, not one flat grid
+    expect(text).toContain('Skills')
+    expect(text).toContain('Experience')
+
+    // Skills come before the Experience sub-group
+    const skillsHeadingIndex = text.indexOf('Skills')
+    const techStackIndex = text.indexOf('Tech Stack')
+    const orgIndex = text.indexOf('Organisasi / Magang')
+    expect(skillsHeadingIndex).toBeLessThan(techStackIndex)
+    expect(techStackIndex).toBeLessThan(orgIndex)
+  })
+
   it('lists the education path (SMP/SMA/Kuliah) in the About section', () => {
     const wrapper = mountPage()
     const text = wrapper.text()

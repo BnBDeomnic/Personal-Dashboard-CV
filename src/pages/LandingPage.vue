@@ -406,9 +406,27 @@ onUnmounted(() => sectionObserver?.disconnect())
 
           <section id="experience">
             <h3 class="mb-4 font-heading text-lg font-semibold text-foreground">Experience</h3>
+
+            <p class="mb-3 font-mono text-xs font-semibold uppercase tracking-widest text-primary">
+              Skills
+            </p>
             <div class="grid gap-4 sm:grid-cols-2">
               <article
-                v-for="skill in skillGroups"
+                v-for="skill in skillGroups.filter((s) => s.category === 'skill')"
+                :key="skill.id"
+                class="rounded-lg border border-border bg-card p-4 text-left"
+              >
+                <h4 class="font-heading font-semibold">{{ skill.title }}</h4>
+                <p class="mt-2 text-sm text-muted-foreground">{{ skill.detail }}</p>
+              </article>
+            </div>
+
+            <p class="mt-8 mb-3 font-mono text-xs font-semibold uppercase tracking-widest text-primary">
+              Experience
+            </p>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <article
+                v-for="skill in skillGroups.filter((s) => s.category === 'experience')"
                 :key="skill.id"
                 class="rounded-lg border border-border bg-card p-4 text-left"
               >
