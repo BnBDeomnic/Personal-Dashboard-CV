@@ -11,7 +11,7 @@ const cvFileHref = '/cv-bagus-wikan.pdf'
 
 <template>
   <div>
-    <NavBar mode="recruiter" />
+    <NavBar />
 
     <!-- Page 1: Hero. Wrapper is taller than one viewport so the inner
          sticky Hero has room to stay pinned while the user scrolls,
