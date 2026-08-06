@@ -279,10 +279,11 @@ const skills = ['Vue 3', 'TypeScript', 'Tailwind', 'Figma', 'Supabase', 'Next.js
             }"
           />
 
-          <!-- Color grade + vignette overlay: fades in over everything above,
-               shifting the light palette toward the Hero's dark navy tone. -->
+          <!-- Color grade + vignette overlay: fades in over everything above
+               (including the z-10 main content) so the whole scene -- logo
+               included -- grades toward the Hero's dark navy tone together. -->
           <div
-            class="pointer-events-none absolute inset-0"
+            class="pointer-events-none absolute inset-0 z-20"
             :style="{
               background: 'radial-gradient(ellipse at center, rgba(15,23,42,0.4) 0%, rgba(13,34,53,0.85) 55%, #0B1E3A 100%)',
               opacity: introToHeroProgress,

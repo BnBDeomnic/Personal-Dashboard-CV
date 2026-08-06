@@ -58,6 +58,8 @@ describe('LandingPage', () => {
     const gradeOverlay = wrapper.find('.landing-root > div[style*="radial-gradient"]')
     expect(gradeOverlay.exists()).toBe(true)
     expect(gradeOverlay.attributes('style')).toContain('opacity: 0')
+    // Must outrank the z-10 main content div, or the logo/name/tagline never actually grade
+    expect(gradeOverlay.classes()).toContain('z-20')
 
     // Portfolio is still the static rounded curtain -- no scroll-driven transform
     const portfolioSection = wrapper.find('section')
