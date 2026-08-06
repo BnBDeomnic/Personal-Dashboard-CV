@@ -24,17 +24,21 @@ describe('LandingPage', () => {
     expect(links[0]!.props('to')).toBe('/')
   })
 
-  it('flows intro straight into the OnBoarding hero, then a split-panel Portfolio/About/Skills section', () => {
+  it('flows intro straight into the OnBoarding hero, then a split-panel About/Experience/Project section, in that order', () => {
     const wrapper = mountPage()
     const text = wrapper.text()
 
     expect(text).toContain('Saya bukan sekadar kode')
-    expect(text).toContain('Portfolio')
     expect(text).toContain('About')
-    expect(text).toContain('Skills')
+    expect(text).toContain('Experience')
+    expect(text).toContain('Project')
     // BAB numbering is gone -- replaced by the nav-driven split panel
     expect(text).not.toContain('BAB 01')
     expect(text).not.toContain('BAB 05')
+
+    // Right column renders About, then Experience, then Project, in that order
+    expect(text.indexOf('About')).toBeLessThan(text.indexOf('Experience'))
+    expect(text.indexOf('Experience')).toBeLessThan(text.indexOf('Project'))
 
     expect(wrapper.findAll('article')).toHaveLength(6) // 3 skill groups + 3 portfolio items
 
@@ -42,10 +46,13 @@ describe('LandingPage', () => {
     const downloadLink = wrapper.get('a[download]')
     expect(downloadLink.text()).toContain('Download CV')
 
-    // Left panel nav links to each right-column section
-    expect(wrapper.find('a[href="#portfolio"]').exists()).toBe(true)
-    expect(wrapper.find('a[href="#about"]').exists()).toBe(true)
-    expect(wrapper.find('a[href="#skills"]').exists()).toBe(true)
+    // Left panel nav links to each right-column section, in About/Experience/Project order
+    const navLinks = wrapper.findAll('nav[aria-label="Section navigation"] a')
+    expect(navLinks.map((link) => link.attributes('href'))).toEqual([
+      '#about',
+      '#experience',
+      '#project',
+    ])
   })
 
   it('uses a color grade + vignette overlay for Intro -> Hero, and a rounded curtain overlap for Hero -> Portfolio', () => {

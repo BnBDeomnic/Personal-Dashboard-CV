@@ -91,12 +91,12 @@ const skills = ['Vue 3', 'TypeScript', 'Tailwind', 'Figma', 'Supabase', 'Next.js
 
 // ─── Split-panel nav (brittanychiang.com concept) ────────────────────────
 // Left panel stays put (sticky on desktop) while the right column scrolls
-// through Portfolio/About/Skills; the nav highlights whichever section is
-// currently in view.
+// through About/Experience/Project; the nav highlights whichever section
+// is currently in view.
 const panelSections = [
-  { id: 'portfolio', label: 'Portfolio' },
   { id: 'about', label: 'About' },
-  { id: 'skills', label: 'Skills' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'project', label: 'Project' },
 ]
 const activeSection = ref(panelSections[0]!.id)
 let sectionObserver: IntersectionObserver | null = null
@@ -383,16 +383,8 @@ onUnmounted(() => sectionObserver?.disconnect())
           </div>
         </div>
 
-        <!-- Right panel: scrolls through Portfolio / About / Skills -->
+        <!-- Right panel: scrolls through About / Experience / Project -->
         <div class="mt-16 space-y-16 lg:mt-0 lg:w-[62%]">
-          <section id="portfolio">
-            <p class="mb-2 font-mono text-xs font-semibold tracking-[0.3em] uppercase text-primary">
-              // Selected Work
-            </p>
-            <h3 class="mb-6 font-heading text-lg font-semibold text-foreground">Portfolio</h3>
-            <PortfolioGallery />
-          </section>
-
           <section id="about">
             <h3 class="mb-4 font-heading text-lg font-semibold text-foreground">About</h3>
             <ul class="space-y-1 text-sm text-muted-foreground">
@@ -402,8 +394,8 @@ onUnmounted(() => sectionObserver?.disconnect())
             </ul>
           </section>
 
-          <section id="skills">
-            <h3 class="mb-4 font-heading text-lg font-semibold text-foreground">Skills &amp; Experience</h3>
+          <section id="experience">
+            <h3 class="mb-4 font-heading text-lg font-semibold text-foreground">Experience</h3>
             <div class="grid gap-4 sm:grid-cols-2">
               <article
                 v-for="skill in skillGroups"
@@ -414,6 +406,14 @@ onUnmounted(() => sectionObserver?.disconnect())
                 <p class="mt-2 text-sm text-muted-foreground">{{ skill.detail }}</p>
               </article>
             </div>
+          </section>
+
+          <section id="project">
+            <p class="mb-2 font-mono text-xs font-semibold tracking-[0.3em] uppercase text-primary">
+              // Selected Work
+            </p>
+            <h3 class="mb-6 font-heading text-lg font-semibold text-foreground">Project</h3>
+            <PortfolioGallery />
           </section>
         </div>
       </div>
