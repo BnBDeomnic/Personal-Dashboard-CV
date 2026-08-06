@@ -19,4 +19,14 @@ describe('PortfolioGallery', () => {
     // No more 3-column card grid
     expect(wrapper.find('.grid').exists()).toBe(false)
   })
+
+  it('links each project title to its GitHub repo, opening in a new tab', () => {
+    const wrapper = mount(PortfolioGallery)
+    portfolioItems.forEach((item) => {
+      const link = wrapper.get(`a[href="${item.link}"]`)
+      expect(link.text()).toContain(item.title)
+      expect(link.attributes('target')).toBe('_blank')
+      expect(link.attributes('rel')).toContain('noopener')
+    })
+  })
 })

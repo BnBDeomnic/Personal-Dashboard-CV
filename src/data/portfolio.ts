@@ -3,28 +3,52 @@ export interface PortfolioItem {
   title: string
   description: string
   tags: string[]
+  link: string
 }
 
 export const portfolioItems: PortfolioItem[] = [
   {
-    id: 'umkm-landing-page',
-    title: 'Landing Page UMKM',
+    id: 'sky-vote',
+    title: 'Sky Vote',
     description:
-      'Redesign landing page untuk UMKM lokal di Yogyakarta — before/after, fokus pada konversi kontak WhatsApp.',
-    tags: ['Vue 3', 'Tailwind', 'Figma'],
+      'Aplikasi survei berbasis web untuk Angkasa Pura, dibangun dengan Vue 3 dan Vite, terhubung ke Supabase sebagai backend.',
+    tags: ['Vue 3', 'Vite', 'Supabase'],
+    link: 'https://github.com/SkyReport/SkyReport',
   },
   {
-    id: 'ux-case-study',
-    title: 'UX Case Study',
-    description:
-      'Studi kasus redesign alur aplikasi/portal yang sering dikeluhkan pengguna, lengkap dengan proses wireframe hingga prototype.',
-    tags: ['Figma', 'UX Research', 'Prototyping'],
+    id: 'sky-exercise',
+    title: 'SkyExercise',
+    description: '(deskripsi menyusul)',
+    tags: ['TBD'],
+    link: 'https://github.com/BnBDeomnic/SkyExercise',
   },
   {
-    id: 'this-dashboard',
-    title: 'Dashboard Ini Sendiri',
+    id: 'sky-inventory',
+    title: 'SkyInventory',
+    description: '(deskripsi menyusul)',
+    tags: ['TBD'],
+    link: 'https://github.com/YIA-TI/SkyInventory',
+  },
+  {
+    id: 'aoch',
+    title: 'AOCH',
+    description: '(deskripsi menyusul)',
+    tags: ['TBD'],
+    link: 'https://github.com/YIA-TI/SkyReport',
+  },
+  {
+    id: 'runera-arbitrum',
+    title: 'Runera-Arbitrum',
     description:
-      'Portofolio yang sedang Anda lihat — dibangun dengan Vue, Tailwind, dan Supabase sebagai bukti kemampuan full-stack.',
-    tags: ['Vue 3', 'TypeScript', 'Tailwind', 'Supabase'],
+      'Proyek Web3 di jaringan Arbitrum — terdiri dari frontend, backend, dan smart contracts.',
+    tags: ['Solidity', 'TypeScript', 'JavaScript'],
+    link: 'https://github.com/orgs/Runera-Arbitrum/repositories',
+  },
+  {
+    id: 'aegisoe',
+    title: 'Aegisoe',
+    description: '(deskripsi menyusul)',
+    tags: ['TBD'],
+    link: 'https://github.com/orgs/Aegisoe/repositories',
   },
 ]

@@ -41,7 +41,7 @@ describe('LandingPage', () => {
     expect(text.indexOf('About')).toBeLessThan(text.indexOf('Experience'))
     expect(text.indexOf('Experience')).toBeLessThan(text.indexOf('Project'))
 
-    expect(wrapper.findAll('article')).toHaveLength(6) // 3 skill groups + 3 portfolio items
+    expect(wrapper.findAll('article')).toHaveLength(9) // 3 skill groups + 6 portfolio items
 
     // CV download and email now live in the left panel, not a separate "Contact" chapter
     const downloadLink = wrapper.get('a[download]')
