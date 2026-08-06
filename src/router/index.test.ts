@@ -4,6 +4,5 @@ import { router } from './index'
 describe('router', () => {
   it('maps each path to the expected route name', () => {
     expect(router.resolve('/').name).toBe('landing')
-    expect(router.resolve('/recruiter').name).toBe('recruiter')
   })
 })

@@ -3,19 +3,42 @@ import { describe, expect, it } from 'vitest'
 import { mount, RouterLinkStub } from '@vue/test-utils'
 import LandingPage from './LandingPage.vue'
 
+function mountPage() {
+  return mount(LandingPage, {
+    global: { stubs: { RouterLink: RouterLinkStub } },
+  })
+}
+
 describe('LandingPage', () => {
-  it('shows the name, skill tags, and a single CTA link to /recruiter', () => {
-    const wrapper = mount(LandingPage, {
-      global: { stubs: { RouterLink: RouterLinkStub } },
-    })
-    // Name is always visible
-    expect(wrapper.text()).toContain('Bagus Wikan')
-    // Static intro text
-    expect(wrapper.text()).toContain('Spesialisasi:')
-    // Single navigation link to the recruiter page, no klien link
+  it('shows the intro (name, skill tags) with no click-through CTA button', () => {
+    const wrapper = mountPage()
+    const text = wrapper.text()
+
+    expect(text).toContain('Bagus Wikan')
+    expect(text).toContain('Spesialisasi:')
+    expect(text).not.toContain('Lihat Profil')
+
+    // Only the NavBar's home logo link remains -- no CTA link to click through
     const links = wrapper.findAllComponents(RouterLinkStub)
-    const targets = links.map((link) => link.props('to'))
-    expect(targets).toContain('/recruiter')
-    expect(targets).not.toContain('/klien')
+    expect(links).toHaveLength(1)
+    expect(links[0]!.props('to')).toBe('/')
+  })
+
+  it('flows intro straight into the OnBoarding hero, Portfolio (page 2), and BAB 01-04 on the same page', () => {
+    const wrapper = mountPage()
+    const text = wrapper.text()
+
+    expect(text).toContain('Saya bukan sekadar kode')
+    expect(text).toContain('Portfolio')
+    expect(text).toContain('BAB 01')
+    expect(text).toContain('BAB 02')
+    expect(text).toContain('BAB 03')
+    expect(text).toContain('BAB 04')
+    expect(text).not.toContain('BAB 05')
+
+    expect(wrapper.findAll('article')).toHaveLength(6) // 3 skill groups + 3 portfolio items
+
+    const downloadLink = wrapper.get('a[download]')
+    expect(downloadLink.text()).toContain('Download CV')
   })
 })
