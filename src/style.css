@@ -68,12 +68,6 @@ body {
   margin: 0;
 }
 
-h1, h2, h3, h4 {
-  font-family: var(--heading);
-  font-weight: 600;
-  color: var(--foreground);
-}
-
 @theme inline {
   --font-heading: var(--heading);
   --font-sans: var(--sans);
@@ -120,5 +114,10 @@ h1, h2, h3, h4 {
   }
   body {
     @apply bg-background text-foreground;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--heading);
+    font-weight: 600;
+    color: var(--foreground);
   }
 }
