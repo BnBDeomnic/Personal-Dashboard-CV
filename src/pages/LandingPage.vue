@@ -63,6 +63,29 @@ function typeEffect() {
 onMounted(() => { typingTimer = setTimeout(typeEffect, 600) })
 onUnmounted(() => clearTimeout(typingTimer))
 
+// ─── Hero → Portfolio zoom/depth transition ──────────────────────────────
+// As the user scrolls through the Hero's pinned window, it shrinks and dims
+// (receding), while Portfolio scales in from slightly larger toward its
+// normal size (approaching) -- a depth/zoom illusion instead of a curtain.
+const heroStageRef = ref<HTMLElement | null>(null)
+const heroToPortfolioProgress = ref(0)
+
+function handleZoomScroll() {
+  const stage = heroStageRef.value
+  if (!stage) return
+  const rect = stage.getBoundingClientRect()
+  const totalScrollable = rect.height - window.innerHeight
+  if (totalScrollable <= 0) return
+  const progress = -rect.top / totalScrollable
+  heroToPortfolioProgress.value = Math.max(0, Math.min(1, progress))
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleZoomScroll, { passive: true })
+  handleZoomScroll()
+})
+onUnmounted(() => window.removeEventListener('scroll', handleZoomScroll))
+
 // Skill tags
 const skills = ['Vue 3', 'TypeScript', 'Tailwind', 'Figma', 'Supabase', 'Next.js', 'React']
 </script>
@@ -257,17 +280,29 @@ const skills = ['Vue 3', 'TypeScript', 'Tailwind', 'Figma', 'Supabase', 'Next.js
       </div>
     </div>
 
-    <!-- Page 1: OnBoarding Hero. Slides up over the still-pinned intro, then
-         itself stays pinned while Page 2 (Portfolio) rises to cover it. -->
-    <div class="relative z-10 -mt-[40vh] h-[160vh]">
-      <div class="sticky top-0 h-screen overflow-hidden rounded-t-[2.5rem] shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.35)]">
+    <!-- Page 1: OnBoarding Hero. Slides up over the still-pinned intro. Then,
+         while itself pinned, it shrinks and dims (receding) as Page 2
+         (Portfolio) scales in from behind it -- a zoom/depth transition. -->
+    <div ref="heroStageRef" class="relative z-10 -mt-[40vh] h-[160vh]">
+      <div
+        class="sticky top-0 h-screen origin-top overflow-hidden rounded-b-[2.5rem] will-change-transform"
+        :style="{
+          transform: `scale(${1 - heroToPortfolioProgress * 0.1})`,
+          filter: `brightness(${1 - heroToPortfolioProgress * 0.5})`,
+        }"
+      >
         <StoryHero />
       </div>
     </div>
 
-    <!-- Page 2: Portfolio. Slides up over the still-pinned Hero. -->
+    <!-- Page 2: Portfolio. Scales in from slightly larger toward its normal
+         size as the Hero above recedes, approaching the viewer. -->
     <section
-      class="relative z-20 -mt-[40vh] rounded-t-[2.5rem] bg-background px-6 pt-16 pb-16 shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.35)] sm:pt-20 sm:pb-20"
+      class="relative z-20 -mt-[40vh] rounded-t-[2.5rem] bg-background px-6 pt-16 pb-16 shadow-2xl sm:pt-20 sm:pb-20 will-change-transform"
+      :style="{
+        transform: `scale(${1.06 - heroToPortfolioProgress * 0.06}) translateY(${(1 - heroToPortfolioProgress) * 24}px)`,
+        opacity: 0.5 + heroToPortfolioProgress * 0.5,
+      }"
     >
       <div class="mx-auto max-w-4xl text-center">
         <p class="mb-2 text-xs font-semibold tracking-[0.3em] uppercase text-primary">

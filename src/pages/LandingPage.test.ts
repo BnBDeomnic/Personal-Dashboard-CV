@@ -41,4 +41,18 @@ describe('LandingPage', () => {
     const downloadLink = wrapper.get('a[download]')
     expect(downloadLink.text()).toContain('Download CV')
   })
+
+  it('uses a zoom/depth transform for the Hero -> Portfolio transition, not the rounded curtain overlap', () => {
+    const wrapper = mountPage()
+
+    // The Hero's sticky wrapper is scroll-driven scale/brightness, not the old rounded-top curtain
+    const heroSticky = wrapper.find('.sticky.h-screen.origin-top')
+    expect(heroSticky.exists()).toBe(true)
+    expect(heroSticky.classes()).not.toContain('rounded-t-[2.5rem]')
+    expect(heroSticky.attributes('style')).toContain('scale(')
+
+    // Portfolio scales in with its own scroll-driven transform
+    const portfolioSection = wrapper.find('section')
+    expect(portfolioSection.attributes('style')).toContain('scale(')
+  })
 })
