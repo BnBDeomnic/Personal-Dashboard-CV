@@ -75,6 +75,11 @@ const recruiterBeats = [
         Tentang Saya · Untuk Recruiter
       </div>
 
+      <!-- Casual greeting -->
+      <p class="mb-2 sm:mb-3 text-sm sm:text-base font-medium text-slate-300">
+        Haii, perkenalkan aku Bagus — and this is my story.
+      </p>
+
       <!-- Headline -->
       <h2 class="mb-2 sm:mb-6 font-heading text-lg sm:text-2xl md:text-3xl font-bold leading-snug text-white">
         Saya bukan sekadar kode —<br />

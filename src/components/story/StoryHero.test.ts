@@ -15,4 +15,10 @@ describe('StoryHero', () => {
     expect(wrapper.text()).toContain('Pertemuan dengan Desain')
     expect(wrapper.text()).toContain('Sekarang')
   })
+
+  it('greets the visitor with a casual intro line before the headline', () => {
+    const wrapper = mount(StoryHero)
+    expect(wrapper.text()).toContain('Haii, perkenalkan aku Bagus')
+    expect(wrapper.text()).toContain('this is my story')
+  })
 })
