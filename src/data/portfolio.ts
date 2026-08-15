@@ -18,8 +18,9 @@ export const portfolioItems: PortfolioItem[] = [
   {
     id: 'sky-exercise',
     title: 'SkyExercise',
-    description: '(deskripsi menyusul)',
-    tags: ['TBD'],
+    description:
+      'Dashboard monitoring aktivitas terhubung Strava untuk program lari & gym — anggota menghubungkan akun Strava sekali (via OAuth + webhook sync), admin memantau aktivitas, ranking, dan quest seluruh peserta secara real-time.',
+    tags: ['Vue 3', 'Vite', 'Supabase', 'Strava API'],
     link: 'https://github.com/BnBDeomnic/SkyExercise',
   },
   {
