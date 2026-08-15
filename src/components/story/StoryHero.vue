@@ -28,22 +28,22 @@ const recruiterBeats = [
   {
     icon: 'start',
     label: 'Awal Mula',
-    text: 'Dulu, saya hanya anak kampus yang penasaran: kenapa website bisa terasa hidup dan yang lain terasa mati?',
+    text: 'Dulu, aku cuma anak kampus biasa yang penasaran — kenapa ya, ada website yang berasa "hidup", sementara yang lain berasa kaku dan mati?',
   },
   {
     icon: 'light',
     label: 'Titik Nyala',
-    text: 'Dari rasa penasaran itu, saya mulai belajar kode — bukan karena terpaksa, tapi karena setiap baris terasa seperti membangun sesuatu dari nol.',
+    text: 'Dari rasa penasaran itu, aku mulai belajar coding. Bukan karena kepaksa tugas kuliah, tapi karena tiap baris kode yang aku tulis berasa kayak lagi membangun sesuatu dari nol — dan itu bikin ketagihan.',
   },
   {
     icon: 'design',
     label: 'Pertemuan dengan Desain',
-    text: 'Kode saja tidak cukup. Saya jatuh cinta ke UI/UX — saat saya sadar bahwa teknologi terbaik adalah yang tidak terasa seperti teknologi.',
+    text: 'Tapi ternyata, coding aja nggak cukup buat aku. Aku jatuh cinta sama UI/UX — di titik itu aku sadar, teknologi terbaik itu justru yang nggak berasa kayak teknologi sama sekali.',
   },
   {
     icon: 'now',
     label: 'Sekarang',
-    text: 'Hari ini saya membangun pengalaman digital yang cepat, indah, dan benar-benar berguna — baik untuk bisnis kecil maupun tim produk.',
+    text: 'Sekarang, aku fokus membangun pengalaman digital yang cepat, enak dipakai, dan beneran berguna — buat bisnis kecil maupun tim produk yang butuh partner yang paham dua sisi: coding dan desain.',
   },
 ]
 </script>
@@ -75,16 +75,11 @@ const recruiterBeats = [
         Tentang Saya · Untuk Recruiter
       </div>
 
-      <!-- Casual greeting -->
-      <p class="mb-2 sm:mb-3 text-sm sm:text-base font-medium text-slate-300">
-        Haii, perkenalkan aku Bagus — and this is my story.
-      </p>
-
       <!-- Headline -->
       <h2 class="mb-2 sm:mb-6 font-heading text-lg sm:text-2xl md:text-3xl font-bold leading-snug text-white">
-        Saya bukan sekadar kode —<br />
+        Haii, perkenalkan aku Bagus —<br />
         <span class="bg-gradient-to-r from-teal-400 via-sky-400 to-indigo-400 bg-clip-text text-transparent">
-          saya membangun produk yang bermakna.
+          And this is my story.
         </span>
       </h2>
 

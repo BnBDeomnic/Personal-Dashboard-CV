@@ -29,7 +29,7 @@ describe('LandingPage', () => {
     const wrapper = mountPage()
     const text = wrapper.text()
 
-    expect(text).toContain('Saya bukan sekadar kode')
+    expect(text).toContain('this is my story')
     expect(text).toContain('About')
     expect(text).toContain('Experience')
     expect(text).toContain('Project')
