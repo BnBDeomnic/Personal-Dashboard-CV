@@ -8,7 +8,65 @@ import PortfolioGallery from '@/components/portfolio/PortfolioGallery.vue'
 import { educationPath, skillGroups } from '@/data/profile'
 import logoUrl from '@/assets/LogoPortoTrnsp.png'
 
-const cvFileHref = '/cv-bagus-wikan.pdf'
+const cvSectionRef = ref<HTMLElement | null>(null)
+const cvStickyPanelRef = ref<HTMLElement | null>(null)
+const isGeneratingPdf = ref(false)
+
+async function downloadCvPdf() {
+  if (isGeneratingPdf.value) return
+  const section = cvSectionRef.value
+  if (!section) return
+
+  isGeneratingPdf.value = true
+  try {
+    const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+      import('html2canvas-pro'),
+      import('jspdf'),
+    ])
+
+    // The left "about" panel is sticky-positioned for scrolling; force it
+    // static during capture so html2canvas lays out the full section
+    // top-to-bottom instead of freezing it at its current scroll offset.
+    const stickyEl = cvStickyPanelRef.value
+    const prevPosition = stickyEl?.style.position ?? ''
+    if (stickyEl) stickyEl.style.position = 'static'
+
+    let canvas: HTMLCanvasElement
+    try {
+      canvas = await html2canvas(section, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#F8FAFC',
+      })
+    } finally {
+      if (stickyEl) stickyEl.style.position = prevPosition
+    }
+
+    const pdf = new jsPDF('p', 'mm', 'a4')
+    const pageWidth = pdf.internal.pageSize.getWidth()
+    const pageHeight = pdf.internal.pageSize.getHeight()
+    const imgWidth = pageWidth
+    const imgHeight = (canvas.height * imgWidth) / canvas.width
+    const imgData = canvas.toDataURL('image/png')
+
+    let heightLeft = imgHeight
+    let position = 0
+
+    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
+    heightLeft -= pageHeight
+
+    while (heightLeft > 0) {
+      position = heightLeft - imgHeight
+      pdf.addPage()
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
+      heightLeft -= pageHeight
+    }
+
+    pdf.save('cv-bagus-wikan.pdf')
+  } finally {
+    isGeneratingPdf.value = false
+  }
+}
 
 // Mouse parallax tracking
 const mouseX = useMotionValue(0)
@@ -333,16 +391,17 @@ onUnmounted(() => sectionObserver?.disconnect())
     <!-- Page 2+: Portfolio through Skills, split-panel layout (brittanychiang.com
          concept). This whole section slides up over the still-pinned Hero. -->
     <section
+      ref="cvSectionRef"
       class="relative z-20 -mt-[40vh] rounded-t-[2.5rem] bg-background px-6 pt-16 pb-16 shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.35)] sm:pt-20 sm:pb-20"
     >
       <div class="mx-auto max-w-6xl lg:flex lg:items-start lg:gap-16">
         <!-- Left panel: sticky "about me" -- name, role, bio, nav, CTAs -->
-        <div class="lg:sticky lg:top-24 lg:w-[38%] lg:shrink-0">
+        <div ref="cvStickyPanelRef" class="lg:sticky lg:top-24 lg:w-[38%] lg:shrink-0">
           <h2 class="font-heading text-3xl font-bold text-foreground sm:text-4xl">
             Bagus Wikan
           </h2>
           <p class="mt-2 text-lg font-semibold text-primary">
-            Calon Software Developer &amp; UI/UX Designer
+            Web Developer &amp; UI/UX Designer
           </p>
           <p class="mt-4 text-sm text-muted-foreground">
             Mahasiswa Informatika, semester akhir — siap kontribusi di tim engineering/produk.
@@ -367,13 +426,14 @@ onUnmounted(() => sectionObserver?.disconnect())
           </nav>
 
           <div class="mt-10 flex flex-wrap gap-3">
-            <a
-              :href="cvFileHref"
-              download
-              class="rounded-md bg-primary px-4 py-2 font-heading font-semibold text-primary-foreground"
+            <button
+              type="button"
+              :disabled="isGeneratingPdf"
+              class="rounded-md bg-primary px-4 py-2 font-heading font-semibold text-primary-foreground disabled:cursor-wait disabled:opacity-60"
+              @click="downloadCvPdf"
             >
-              Download CV (PDF)
-            </a>
+              {{ isGeneratingPdf ? 'Menyiapkan PDF…' : 'Download CV (PDF)' }}
+            </button>
             <a
               href="mailto:nama@email.com"
               class="rounded-md border border-primary px-4 py-2 font-heading font-semibold text-primary"

@@ -29,16 +29,20 @@ export const portfolioItems: PortfolioItem[] = [
   {
     id: 'sky-inventory',
     title: 'SkyInventory',
-    description: '(deskripsi menyusul)',
-    tags: ['TBD'],
+    description:
+      'Dashboard manajemen inventaris dan rekap operasional untuk PT Angkasa Pura Indonesia (InJourney Airports) — autentikasi role-based (Officer & Supervisor) dengan akses halaman berbeda, manajemen stok (Stock In, Stock Out, Stock Opname khusus Supervisor), rekap transaksi dengan filter & pagination, insight efisiensi stok, serta ekspor laporan ke Excel & PDF.',
+    tags: ['Vue 3', 'TypeScript', 'Vite', 'Pinia', 'Vue Router'],
     link: 'https://github.com/YIA-TI/SkyInventory',
+    image: '/Sky Inventory.png',
   },
   {
-    id: 'aoch',
-    title: 'AOCH',
-    description: '(deskripsi menyusul)',
-    tags: ['TBD'],
+    id: 'sky-report',
+    title: 'SkyReport',
+    description:
+      'Dashboard AOCH (Airport Operation Control Hub) — dashboard internal untuk memantau operasional Bandara YIA (Yogyakarta International Airport), mencakup kegiatan harian, program kerja & anggaran tahunan, kesiapan unit, dan SDM secara real-time. Menerapkan 4 role hierarki (Admin, GM, Div Head, Dep Head) dengan keamanan berlapis di level database (Row Level Security, bcrypt, SECURITY DEFINER) serta update realtime via WebSocket. Proyek internal PT Angkasa Pura, tidak untuk distribusi publik.',
+    tags: ['Vue 3', 'Pinia', 'TypeScript', 'Express', 'PostgreSQL', 'WebSocket'],
     link: 'https://github.com/YIA-TI/SkyReport',
+    image: '/sky report.png',
   },
   {
     id: 'runera-arbitrum',
