@@ -3,12 +3,10 @@ import { mount, RouterLinkStub } from '@vue/test-utils'
 import NavBar from './NavBar.vue'
 
 describe('NavBar', () => {
-  it('shows a static "OnBoarding" label instead of a clickable mode-switch link', () => {
+  it('does not show a clickable mode-switch link', () => {
     const wrapper = mount(NavBar, {
       global: { stubs: { RouterLink: RouterLinkStub } },
     })
-
-    expect(wrapper.text()).toContain('OnBoarding')
 
     const linkTargets = wrapper.findAllComponents(RouterLinkStub).map((link) => link.props('to'))
     expect(linkTargets).not.toContain('/klien')

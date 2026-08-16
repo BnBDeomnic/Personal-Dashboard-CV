@@ -4,15 +4,16 @@ export interface PortfolioItem {
   description: string
   tags: string[]
   link: string
+  image?: string
 }
 
 export const portfolioItems: PortfolioItem[] = [
   {
     id: 'sky-vote',
-    title: 'Sky Vote',
+    title: 'SkyVote',
     description:
-      'Aplikasi survei berbasis web untuk Angkasa Pura, dibangun dengan Vue 3 dan Vite, terhubung ke Supabase sebagai backend.',
-    tags: ['Vue 3', 'Vite', 'Supabase'],
+      'Aplikasi tracking partisipasi survei untuk InJourney Airports — karyawan memilih survei aktif, mengikuti link, dan mengunggah bukti pengisian (nama, NIP, departemen, gambar bukti); admin membuat/mengelola survei dengan periode & kuota, meninjau submission per departemen, mengekspor laporan PDF, dan mengelola gambar bukti yang diunggah.',
+    tags: ['Vue 3', 'Vite', 'Pinia', 'Vue Router', 'Supabase'],
     link: 'https://github.com/SkyReport/SkyReport',
   },
   {
@@ -22,6 +23,7 @@ export const portfolioItems: PortfolioItem[] = [
       'Dashboard monitoring aktivitas terhubung Strava untuk program lari & gym — anggota menghubungkan akun Strava sekali (via OAuth + webhook sync), admin memantau aktivitas, ranking, dan quest seluruh peserta secara real-time.',
     tags: ['Vue 3', 'Vite', 'Supabase', 'Strava API'],
     link: 'https://github.com/BnBDeomnic/SkyExercise',
+    image: '/SkyExcercise.png',
   },
   {
     id: 'sky-inventory',

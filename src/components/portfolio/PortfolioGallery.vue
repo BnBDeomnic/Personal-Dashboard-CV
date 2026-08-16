@@ -15,7 +15,14 @@ const accents = [
       :key="item.id"
       class="flex gap-4 py-5 sm:gap-6 sm:py-6"
     >
+      <img
+        v-if="item.image"
+        :src="item.image"
+        :alt="item.title"
+        class="h-12 w-12 shrink-0 rounded-xl object-cover shadow-md sm:h-14 sm:w-14"
+      />
       <div
+        v-else
         :class="`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br text-lg font-bold text-white shadow-md sm:h-14 sm:w-14 ${accents[i % accents.length]}`"
       >
         {{ item.title.charAt(0) }}
