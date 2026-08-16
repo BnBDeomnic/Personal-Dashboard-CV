@@ -15,6 +15,7 @@ export const portfolioItems: PortfolioItem[] = [
       'Aplikasi tracking partisipasi survei untuk InJourney Airports — karyawan memilih survei aktif, mengikuti link, dan mengunggah bukti pengisian (nama, NIP, departemen, gambar bukti); admin membuat/mengelola survei dengan periode & kuota, meninjau submission per departemen, mengekspor laporan PDF, dan mengelola gambar bukti yang diunggah.',
     tags: ['Vue 3', 'Vite', 'Pinia', 'Vue Router', 'Supabase'],
     link: 'https://github.com/SkyReport/SkyReport',
+    image: '/skyvote.png',
   },
   {
     id: 'sky-exercise',
