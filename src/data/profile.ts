@@ -6,7 +6,7 @@ export interface SkillGroup {
 }
 
 export const skillGroups: SkillGroup[] = [
-  { id: 'tech-stack', title: 'Tech Stack', detail: 'Vue, Tailwind, Supabase', category: 'skill' },
+  { id: 'tech-stack', title: 'Tech Stack', detail: 'React.js, Next.js, Vue.js, Tailwind, Supabase, MySQL, PostgreSQL', category: 'skill' },
   { id: 'design-tools', title: 'Design Tools', detail: 'Figma, prototyping', category: 'skill' },
   { id: 'experience', title: 'Organisasi / Magang', detail: '(isi pengalaman)', category: 'experience' },
 ]
